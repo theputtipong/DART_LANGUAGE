@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'service.dart';
+import 'uploadfirebasestorage.dart';
 
 class LoginPageWidget extends StatefulWidget {
   const LoginPageWidget({super.key});
@@ -51,7 +52,17 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
             const SizedBox(
               height: 20,
             ),
-            TextButton.icon(onPressed: () {}, icon: const Icon(Icons.login), label: const Text(_textLogin))
+            TextButton.icon(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const UploadFirebaseStorage(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.login),
+                label: const Text(_textLogin))
           ],
         ),
       ),
