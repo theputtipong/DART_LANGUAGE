@@ -32,10 +32,11 @@ class _UploadFirebaseStorageState extends State<UploadFirebaseStorage> {
       return null;
     }
     UploadTask uploadTask;
-    Reference ref = FirebaseStorage.instance.ref().child('images/${DateTime.now()}');
+    Reference ref = FirebaseStorage.instance.ref().child(
+        'images/${DateTime.now().minute}${DateTime.now().second}${DateTime.now().microsecond}${DateTime.now().millisecond}.jpg');
     final metadata = SettableMetadata(
       contentType: 'image/jpeg',
-      customMetadata: {'picked-file-path': file.path},
+      // customMetadata: {'picked-file-path': file.path},
     );
     if (checkPlatform() == Platform.isWeb) {
       uploadTask = ref.putData(await file.readAsBytes(), metadata);

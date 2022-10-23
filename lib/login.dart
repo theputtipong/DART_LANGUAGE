@@ -54,12 +54,20 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
             ),
             TextButton.icon(
                 onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const UploadFirebaseStorage(),
-                    ),
-                  );
+                  if (_userLogin.text == "admin" && _passLogin.text == "P@ssw0rd") {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UploadFirebaseStorage(),
+                      ),
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Username or Password incorrect'),
+                      ),
+                    );
+                  }
                 },
                 icon: const Icon(Icons.login),
                 label: const Text(_textLogin))
@@ -76,6 +84,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
       focusNode: focus,
       obscureText: obscure ? _obscurePass : obscure,
       autofocus: index == 0 ? true : false,
+      enableSuggestions: index == 1 ? false : true,
       decoration: InputDecoration(
           labelText: textlabel,
           prefixIcon: Icon(icon),
