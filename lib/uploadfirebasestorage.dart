@@ -22,6 +22,22 @@ class _UploadFirebaseStorageState extends State<UploadFirebaseStorage> {
   static const String _textAppBar = 'Upload Firebase Storage Page';
   List<UploadTask> _uploadTasks = [];
 
+  UploadTask uploadString() {
+    const String putStringText = 'This upload has been generated using the putString method! Check the metadata too!';
+
+    // Create a Reference to the file
+    Reference ref = FirebaseStorage.instance.ref().child('flutter-tests').child('/put-string-example.txt');
+
+    // Start upload of putString
+    return ref.putString(
+      putStringText,
+      metadata: SettableMetadata(
+        contentLanguage: 'en',
+        customMetadata: <String, String>{'example': 'putString'},
+      ),
+    );
+  }
+
   Future<UploadTask?> uploadFile(XFile? file) async {
     if (file == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -32,11 +48,10 @@ class _UploadFirebaseStorageState extends State<UploadFirebaseStorage> {
       return null;
     }
     UploadTask uploadTask;
-    Reference ref = FirebaseStorage.instance.ref().child(
-        'images/${DateTime.now().minute}${DateTime.now().second}${DateTime.now().microsecond}${DateTime.now().millisecond}.jpg');
+    Reference ref = FirebaseStorage.instance.ref().child('flutter-tests').child('/some-image.jpg');
     final metadata = SettableMetadata(
       contentType: 'image/jpeg',
-      // customMetadata: {'picked-file-path': file.path},
+      customMetadata: {'picked-file-path': file.path},
     );
     if (checkPlatform() == Platform.isWeb) {
       uploadTask = ref.putData(await file.readAsBytes(), metadata);
@@ -49,6 +64,9 @@ class _UploadFirebaseStorageState extends State<UploadFirebaseStorage> {
   Future<void> handleUploadType(UploadType type) async {
     switch (type) {
       case UploadType.string:
+        setState(() {
+          _uploadTasks = [..._uploadTasks, uploadString()];
+        });
         break;
       case UploadType.file:
         final file = await ImagePicker().pickImage(source: ImageSource.gallery);
