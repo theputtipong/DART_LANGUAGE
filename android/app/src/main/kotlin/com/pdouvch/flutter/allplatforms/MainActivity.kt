@@ -1,4 +1,4 @@
-package com.pdouvch.flutterallplatforms.flutterallplatforms
+package com.pdouvch.flutter.allplatforms
 
 import io.flutter.embedding.android.FlutterActivity
 
